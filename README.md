@@ -6,11 +6,11 @@ Automated, rule-based traffic event detection and causal accident anticipation s
 
 ## 👥 Team Members & Contribution
 
-| Name | Role | Responsibilities |
-| :--- | :--- | :--- |
-| **Merajov Nurmuhammad** | **Computer Vision & Algorithm Engineer** | • Designed and implemented the complete CV and algorithmic pipeline (`solution.py`, `src/`).<br>• Developed YOLOv8n object detection & ByteTrack multi-object tracking integration.<br>• Implemented kinematic trajectory smoothing, velocity vector estimation, and dynamic traffic flow field.<br>• Created rule-based engines for `accident`, `stopped_vehicle`, `wrong_way`, `jaywalking`, and `near_miss`.<br>• Designed the causal Time-To-Collision (TTC) accident anticipation engine (`RiskEstimator`).<br>• Profiled and optimized video decoding with `cap.grab()` and dynamic stride to strictly meet the $< 3\times$ runtime budget. |
-| **G'ulomov Jamshid** | **Web Full-Stack Developer** | • Built and structured the web application and interactive frontend dashboard.<br>• Integrated API communication and real-time visualization of predictions and incident analytics.<br>• Implemented responsive UI components for review of detected traffic events and risk trends. |
-| **Nurulloyev Abdulaziz** | **Web Backend & UI/UX Designer** | • Engineered backend services, data schemas, and pipeline orchestration for the web platform.<br>• Designed the UI/UX architecture and workflow layouts for traffic monitoring operators.<br>• Managed deployment and integration testing of the web application. |
+| Photo | Name | Role | Responsibilities |
+| :---: | :--- | :--- | :--- |
+| <img src="images/Nurmuhammad.jpg" width="80"> | **Merajov Nurmuhammad** | **Computer Vision & Algorithm Engineer** | • Designed and implemented the complete CV and algorithmic pipeline (`solution.py`, `src/`).<br>• Developed YOLOv8n object detection & ByteTrack multi-object tracking integration.<br>• Implemented kinematic trajectory smoothing, velocity vector estimation, and dynamic traffic flow field.<br>• Created rule-based engines for `accident`, `stopped_vehicle`, `wrong_way`, `jaywalking`, and `near_miss`.<br>• Designed the causal Time-To-Collision (TTC) accident anticipation engine (`RiskEstimator`).<br>• Profiled and optimized video decoding with `cap.grab()` and dynamic stride to strictly meet the $< 3\times$ runtime budget. |
+| <img src="images/Jamshid.jpg" width="80"> | **G'ulomov Jamshid** | **Web Full-Stack Developer** | • Built and structured the web application and interactive frontend dashboard.<br>• Integrated API communication and real-time visualization of predictions and incident analytics.<br>• Implemented responsive UI components for review of detected traffic events and risk trends. |
+| <img src="images/Abdulaziz.jpg" width="80"> | **Nurulloyev Abdulaziz** | **Web Backend & UI/UX Designer** | • Engineered backend services, data schemas, and pipeline orchestration for the web platform.<br>• Designed the UI/UX architecture and workflow layouts for traffic monitoring operators.<br>• Managed deployment and integration testing of the web application. |
 
 ---
 

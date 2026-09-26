@@ -142,11 +142,9 @@ The system employs a lean, highly optimized hybrid architecture combining lightw
 
 ---
 
+
 ## 📋 Evaluation Metrics Reference
 
-- **Part A (Event Detection)**: Temporal IoU ($t\text{IoU} \in \{0.3, 0.5, 0.7\}$) greedy one-to-one matching with $F_1$ score per class:
-  $$\text{Score}_A = \frac{1}{|C|} \sum_{c \in C} \frac{1}{3} \sum_{\tau} F_{1, c}(\tau)$$
-- **Part B (Accident Anticipation)**: Causal prediction evaluated at $H = 5\text{s}, W = 10\text{s}, \theta = 0.5$:
-  $$\text{Score}_B = 0.4 \cdot \text{AP} + 0.4 \cdot F_{1,\text{alarm}} + 0.2 \cdot \frac{\text{mTTA}}{W}$$
-- **Final Combined Score**:
-  $$M = 0.7 \cdot \text{Score}_A + 0.3 \cdot \text{Score}_B$$
+- **Part A (Event Detection)**: Temporal IoU (\(t\text{IoU} \in \{0.3, 0.5, 0.7\}\)) greedy one-to-one matching with \(F_1\) score per class: \(\text{Score}_A = \frac{1}{|C|} \sum_{c \in C} \frac{1}{3} \sum_{\tau} F_{1, c}(\tau)\)
+- **Part B (Accident Anticipation)**: Causal prediction evaluated at \(H = 5\text{s}, W = 10\text{s}, \theta = 0.5\): \(\text{Score}_B = 0.4 \cdot \text{AP} + 0.4 \cdot F_{1,\text{alarm}} + 0.2 \cdot \frac{\text{mTTA}}{W}\)
+- **Final Combined Score**: \(M = 0.7 \cdot \text{Score}_A + 0.3 \cdot \text{Score}_B\)

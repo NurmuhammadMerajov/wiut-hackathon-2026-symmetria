@@ -102,7 +102,7 @@ The system employs a lean, highly optimized hybrid architecture combining lightw
 ### 2. Models Used & Pretrained Weights
 - **Model**: `YOLOv8n` (YOLOv8 Nano) from Ultralytics.
 - **Parameters**: ~3.2 million parameters (FP32/FP16 weights size: 6.25 MB).
-- **Target Hardware**: Runs smoothly on 1x NVIDIA T4 GPU (or CPU fallback), maintaining an inference speed of $> 120$ FPS.
+- **Target Hardware**: Runs smoothly on 1x NVIDIA T4 GPU (or CPU fallback), maintaining an inference speed of > 120 FPS.
 
 ### 3. Datasets Used for Training & Licences
 - **Training Dataset**: Pre-trained on **MS-COCO (Common Objects in Context)**.
@@ -117,12 +117,12 @@ The system employs a lean, highly optimized hybrid architecture combining lightw
 | **Multi-Object Association** | **Rule-Based** | ByteTrack algorithm matches detections frame-to-frame using Kalman filtering and bipartite IoU matching without learned re-ID embeddings. |
 | **Trajectory & Kinematics** | **Rule-Based** | Exponential Moving Average (EMA) smoothing of bounding box centers; analytical calculation of velocity $(v_x, v_y)$, magnitude, and heading angles. |
 | **Dynamic Traffic Flow Estimation**| **Rule-Based** | The camera view is partitioned into a spatial grid; normal traffic direction vectors are dynamically aggregated from moving vehicles without requiring manual camera calibration. |
-| **Accident Detection** | **Rule-Based** | Evaluates spatial intersection (AABB $\text{IoU} > 0.05$ or $\text{IoS} > 0.15$), coupled with an abrupt post-contact velocity drop ($> 55\%$) and stationary entanglement persistence ($\ge 2.0$s). |
+| **Accident Detection** | **Rule-Based** | Evaluates spatial intersection (AABB $\text{IoU} > 0.05$ or $\text{IoS} > 0.15$), coupled with an abrupt post-contact velocity drop ($> 55\%$) and stationary entanglement persistence ($\ge 2.0\text{s}$). |
 | **Stopped Vehicle Detection** | **Rule-Based** | Centroid movement displacement below drift threshold ($< 25\text{px}$) sustained for $\ge 10.0$ continuous seconds on the carriageway. |
-| **Wrong-Way Driving Detection** | **Rule-Based** | Angle deviation between vehicle heading and dominant traffic vector ($\cos(\theta) < -0.5$) sustained for $\ge 1.5$s at speed $> 20\text{px/s}$. |
-| **Jaywalking Detection** | **Rule-Based** | Pedestrian bounding-box foot coordinate $(c_x, y_2)$ situated in active carriageway zones for $\ge 1.0$s. |
-| **Causal Accident Anticipation (`RiskEstimator`)** | **Rule-Based** | Computes Time-To-Collision (TTC) and projected closest approach distance ($d_{\text{closest}}$) for all converging trajectories, mapped to probability $P(\text{accident within 5s})$ with continuous-time exponential decay $\exp(-\Delta t / 0.8)$. Zero future lookahead. |
-| **Temporal Event Merging** | **Rule-Based** | Merges same-class event segments separated by $\le 1.5$s to strictly prevent overlapping intervals, discarding transient noise blips ($< 0.5$s). |
+| **Wrong-Way Driving Detection** | **Rule-Based** | Angle deviation between vehicle heading and dominant traffic vector ($\cos\theta < -0.5$) sustained for $\ge 1.5\text{s}$ at speed $> 20\text{px/s}$. |
+| **Jaywalking Detection** | **Rule-Based** | Pedestrian bounding-box foot coordinate $(c_x, y_2)$ situated in active carriageway zones for $\ge 1.0\text{s}$. |
+| **Causal Accident Anticipation (`RiskEstimator`)** | **Rule-Based** | Computes Time-To-Collision (TTC) and projected closest approach distance ($d_{\text{closest}}$) for all converging trajectories, mapped to probability $P(\text{accident} \le 5\text{s})$ with continuous-time exponential decay $\exp(-\Delta t / 0.8)$. Zero future lookahead. |
+| **Temporal Event Merging** | **Rule-Based** | Merges same-class event segments separated by $\le 1.5\text{s}$ to strictly prevent overlapping intervals, discarding transient noise blips ($< 0.5\text{s}$). |
 
 ---
 
@@ -138,13 +138,26 @@ The system employs a lean, highly optimized hybrid architecture combining lightw
   - Frame sampling stride is calculated deterministically based on video metadata: $\text{stride} = \max(2, \text{round}(\text{fps} / 2.5))$.
   - Video decoding utilizes `cap.grab()` on skipped frames and `cap.retrieve()` on sampled frames, ensuring uniform wall-clock timing and consistent frame indices across runs.
 - **Hardware & Budget Compliance**:
-  - With a sampling frequency of $\sim 2.5$ FPS and image inference size of 512, processing a 300s video takes $\approx 35 - 50$ seconds on 1x NVIDIA T4 GPU ($\approx 0.15\times$ video duration), well within the hackathon's $< 3\times$ duration budget limit.
+  - With a sampling frequency of ~2.5 FPS and image inference size of 512, processing a 300s video takes $\approx 35 - 50$ seconds on 1x NVIDIA T4 GPU ($\approx 0.15\times$ video duration), well within the hackathon's $< 3\times$ duration budget limit.
 
 ---
 
-```markdown
 ## 📋 Evaluation Metrics Reference
 
-- **Part A (Event Detection)**: Temporal IoU (\(t\text{IoU} \in \{0.3, 0.5, 0.7\}\)) greedy one-to-one matching with \(F_1\) score per class: \(\text{Score}_A = \frac{1}{|C|} \sum_{c \in C} \frac{1}{3} \sum_{\tau} F_{1, c}(\tau)\)
-- **Part B (Accident Anticipation)**: Causal prediction evaluated at \(H = 5\text{s}, W = 10\text{s}, \theta = 0.5\): \(\text{Score}_B = 0.4 \cdot \text{AP} + 0.4 \cdot F_{1,\text{alarm}} + 0.2 \cdot \frac{\text{mTTA}}{W}\)
-- **Final Combined Score**: \(M = 0.7 \cdot \text{Score}_A + 0.3 \cdot \text{Score}_B\)
+- **Part A (Event Detection)**: Temporal IoU ($t\text{IoU} \in \{0.3, 0.5, 0.7\}$) greedy one-to-one matching with $F_1$ score per class:
+
+$$
+\text{Score}_A = \frac{1}{|C|} \sum_{c \in C} \frac{1}{3} \sum_{\tau \in \{0.3, 0.5, 0.7\}} F_{1, c}(\tau)
+$$
+
+- **Part B (Accident Anticipation)**: Causal prediction evaluated at $H = 5\text{s}, W = 10\text{s}, \theta = 0.5$:
+
+$$
+\text{Score}_B = 0.4 \cdot \text{AP} + 0.4 \cdot F_{1,\text{alarm}} + 0.2 \cdot \frac{\text{mTTA}}{W}
+$$
+
+- **Final Combined Score**:
+
+$$
+M = 0.7 \cdot \text{Score}_A + 0.3 \cdot \text{Score}_B
+$$

@@ -1,0 +1,46 @@
+# Python va virtual muhitlar
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+
+# Maxfiy kalitlar va ruxsatnomalar
+.env
+*.pem
+secrets.json
+
+# IDE va muharrirlar sozlamalari
+.vscode/
+.idea/
+*.swp
+
+# OS fayllari
+.DS_Store
+Thumbs.db
+
+# Katta hajmdagi fayllar (Videolar va Rasmlar)
+*.mp4
+*.avi
+*.mkv
+*.jpg
+*.jpeg
+*.png
+data/
+datasets/
+videos/
+
+# Mashinali o'rganish (ML) modellari va vaznlari
+*.weights
+*.pt
+*.pth
+*.h5
+*.onnx
+models/
+checkpoints/
+
+# Jurnallar (Logs) va vaqtinchalik natijalar
+logs/
+runs/
+*.log
